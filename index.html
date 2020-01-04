@@ -629,7 +629,7 @@ var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.sl
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2"){
 var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2n"){
-var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
+var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "3"){
 var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-2) + "em " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "4"){
