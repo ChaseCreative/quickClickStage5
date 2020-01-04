@@ -169,7 +169,7 @@ var transVerb = [["vexō","vexavī","1", "annoys","annoyed"],["faciō","fēcī",
 ["accuso","accusavī","1", "accuses","accused"],["pulsō","pulsavī","1", "strikes","struck"],["ducō","duxī","3", "leads","led"],["emō","ēmī","3", "buys","bought"],
 ["seco","secuī","1", "cuts","cut"],["tondeo","totondī","2", "trims","trimmed"],["verberō","verberavī","1", "beats","beat"],["teneō","tenuī", "2","holds","held"],
 ["quaero","quaesivī","3", "seeks","sought"],["peto","petivī","3", "attacks","looked for"],["pingo","pinxī","3", "paints","painted"],["salutō","salutavī","1", "greets","greeted"],
-["vituperō","vituperagi","1", "scolds","scolded"],["numerō","numeravī","1", "counts","counted"],["exspectō","exspectavī","1", "expects","waited for"],["coquō","coxī","3", "cooks","cooked"],
+["vituperō","vituperavi","1", "scolds","scolded"],["numerō","numeravī","1", "counts","counted"],["exspectō","exspectavī","1", "expects","waited for"],["coquō","coxī","3", "cooks","cooked"],
 ["visitō","visitavī","1", "visits","visited"],["consumō","consumpsī","3", "eats","ate"],["videō","vīdī","2", "sees","saw"],["delecto","delectavī","1", "delights","delighted"],
 ["vocō","vocavī","1", "calls","called"],["laudo","laudavi","1", "praises","praised"],["gustō","gustavī","1", "tastes","tasted"],["spectō","spectavī","1", "observes","looked at"],
 ["intrō","intravī","1", "enters", "entered"]];
@@ -193,9 +193,8 @@ var linkingVerb = [["est", "is"]];
 var ranLinkingVerbIndx = Math.floor(Math.random() * linkingVerb.length);
 
 
-
 class Latin {
-  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,stem){
+  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,stem,perfect){
   this.subject = subject;
   this.verb = verb;
   this.transVerb = transVerb;
@@ -205,31 +204,30 @@ class Latin {
   this.linkingVerb = linkingVerb;
   this.adjective = adjective;
   this.stem = stem;
+  this.perfect = perfect;
 }
 
 nomPluralSubject(){
   if (subjNounComboSing[ranSubjComboSingIndx][5] == "1"){
-  return this.object;
+  return this.stem;
 } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "2"){
-return this.object;
+return this.stem;
 } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "2n"){
-return this.object.slice(0,-1) + "a";
+return this.stem.slice(0,-1) + "a";
 } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "3"){
-return this.object.slice(0,-2) + "ēs";
+return this.stem.slice(0,-2) + "ēs";
 } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "4"){
-return this.object;
+return this.stem;
 } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "5"){
-return this.ojbect.slice(0,-2) + "ēs";
+return this.stem.slice(0,-2) + "ēs";
 }
 }
 
-
-
-presThirdSing(){
-  if (transVerb[ranTransVerbIndx][2] == "1"){
-  return this.transVerb.slice(0,-1) + "at";
-} else if (transVerb[ranTransVerbIndx][2] == "2"){
-return this.transVerb.slice(0,-1) + "t";
+  presThirdSing(){
+    if (transVerb[ranTransVerbIndx][2] == "1"){
+    return this.transVerb.slice(0,-1) + "at";
+  } else if (transVerb[ranTransVerbIndx][2] == "2"){
+  return this.transVerb.slice(0,-1) + "t";
 } else if (transVerb[ranTransVerbIndx][2] == "3"){
 return this.transVerb.slice(0,-1) + "it";
 } else if (transVerb[ranTransVerbIndx][2] == "3io"){
@@ -240,9 +238,24 @@ return this.transVerb.slice(0,-1) + "t";
 }
 
 
+impThirdSing(){
+if (transVerb[ranTransVerbIndx][2] == "1"){
+return this.transVerb.slice(0,-1) + "ābat";
+} else if (transVerb[ranTransVerbIndx][2] == "2"){
+return this.transVerb.slice(0,-2) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "3"){
+return this.transVerb.slice(0,-1) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "3io"){
+return this.transVerb.slice(0,-1) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "4"){
+return this.transVerb.slice(0,-1) + "ēbat";
+}
+}
+
+
 presThirdPlural(){
-  if (transVerb[ranTransVerbIndx][2] == "1"){
-  return this.transVerb.slice(0,-1) + "ant";
+if (transVerb[ranTransVerbIndx][2] == "1"){
+return this.transVerb.slice(0,-1) + "ant";
 } else if (transVerb[ranTransVerbIndx][2] == "2"){
 return this.transVerb.slice(0,-1) + "nt";
 } else if (transVerb[ranTransVerbIndx][2] == "3"){
@@ -255,24 +268,44 @@ return this.transVerb.slice(0,-1) + "unt";
 }
 
 
-
-presThirdSing(){
-  if (transVerb[ranTransVerbIndx][2] == "1"){
-  return this.transVerb.slice(0,-1) + "at";
+impThirdPlural(){
+if (transVerb[ranTransVerbIndx][2] == "1"){
+return this.transVerb.slice(0,-1) + "ābat";
 } else if (transVerb[ranTransVerbIndx][2] == "2"){
-return this.transVerb.slice(0,-1) + "t";
+return this.transVerb.slice(0,-2) + "ēbat";
 } else if (transVerb[ranTransVerbIndx][2] == "3"){
-return this.transVerb.slice(0,-1) + "it";
+return this.transVerb.slice(0,-1) + "ēbat";
 } else if (transVerb[ranTransVerbIndx][2] == "3io"){
-return this.transVerb.slice(0,-1) + "t";
+return this.transVerb.slice(0,-1) + "ēbat";
 } else if (transVerb[ranTransVerbIndx][2] == "4"){
-return this.transVerb.slice(0,-1) + "t";
+return this.transVerb.slice(0,-1) + "ēbat";
 }
 }
+
+
+
+presThirdSingVerb(){
+if (verb[ranVerbIndx][2] == "1"){
+return this.verb.slice(0,-1) + "at";
+} else if (verb[ranVerbIndx][2] == "2"){
+return this.verb.slice(0,-1) + "t";
+} else if (verb[ranVerbIndx][2] == "3"){
+return this.verb.slice(0,-1) + "it";
+} else if (verb[ranVerbIndx][2] == "3io"){
+return this.verb.slice(0,-1) + "t";
+} else if (verb[ranVerbIndx][2] == "4"){
+return this.verb.slice(0,-1) + "t";
+} else if (verb[ranVerbIndx][2] == "irreg"){
+return this.verb.slice(0,-2) + "it";
+}
+}
+
+
+
 
 presSecondSingTransVerb(){
-  if (transVerb[ranTransVerbIndx][2] == "1"){
-  return this.transVerb.slice(0,-1) + "as";
+if (transVerb[ranTransVerbIndx][2] == "1"){
+return this.transVerb.slice(0,-1) + "as";
 } else if (transVerb[ranTransVerbIndx][2] == "2"){
 return this.transVerb.slice(0,-1) + "s";
 } else if (transVerb[ranTransVerbIndx][2] == "3"){
@@ -287,8 +320,8 @@ return this.transVerb.slice(0,-2) + "is";
 }
 
 presSecondSingVerb(){
-  if (verb[ranVerbIndx][2] == "1"){
-  return this.verb.slice(0,-1) + "as";
+if (verb[ranVerbIndx][2] == "1"){
+return this.verb.slice(0,-1) + "as";
 } else if (verb[ranVerbIndx][2] == "2"){
 return this.verb.slice(0,-1) + "s";
 } else if (verb[ranVerbIndx][2] == "3"){
@@ -305,7 +338,7 @@ return this.verb.slice(0,-2) + "is";
 }
 
 class Translation {
-  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,pluralSubject){
+  constructor (subject, verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,pluralSubject,perfect){
     this.subject = subject;
     this.verb = verb;
     this.transVerb = transVerb;
@@ -315,11 +348,14 @@ class Translation {
     this.linkingVerb = linkingVerb;
     this.adjective = adjective;
     this.pluralSubject = pluralSubject;
+    this.perfect = perfect;
   }
 }
 
-myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx],subjNounComboSing[ranSubjComboSingIndx][1]);
-myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3],subjNounComboSing[ranSubjComboSingIndx][4]);
+myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx],subjNounComboSing[ranSubjComboSingIndx][1],transVerb[ranTransVerbIndx][1]);
+myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3],subjNounComboSing[ranSubjComboSingIndx][4],transVerb[ranTransVerbIndx][4]);
+
+
 
 
 
@@ -397,7 +433,7 @@ function resetSentence(){
   //The following transVerb 3-io were removed: capit and aperit
   transVerb =
   [["vexō","vexavī","1", "annoys","annoyed"],["faciō","fēcī","3io", "makes","made"],["agō","ēgī","3", "drives","drove"],["aperiō","aperuī","4","opens","opened"],["capio","cēpi","3io","takes","took"],["convincō","convīcī","3","convicts","convicted"],["probō","probavī", "1","proves","proved"],
-  ["vendo","vendidī", "3","sells","sold"],["debeō","debuī","2", "owes","owed"],["tradō","tradidit","3", "trades","handed over"],["reddō","reddidī", "3","returns","gave back"],["celō","celavī","1", "hides","hid"],["accuso","accusavī","1", "accuses","accused"],["pulsō","pulsavī","1", "strikes","struck"],["ducō","duxī","3", "leads","led"],["emō","ēmī","3", "buys","bought"],["seco","secuī","1", "cuts","cut"],["tondeo","totondī","2", "trims","trimmed"],["verberō","verberavī","1", "beats","beat"],["teneō","tenuī", "2","holds","held"],["quaero","quaesivī","3", "seeks","sought"],["peto","petivī","3", "attacks","looked for"],["pingo","pinxī","3", "paints","painted"],["salutō","salutavī","1", "greets","greeted"],["vituperō","vituperagi","1", "scolds","scolded"],["numerō","numeravī","1", "counts","counted"],["exspectō","exspectavī","1", "expects","waited for"],["coquō","coxī","3","cooks","cooked"],["visitō","visitavī","1", "visits","visited"],["consumō","consumpsī","3", "eats","ate"],["videō","vīdī","2", "sees","saw"],["delecto","delectavī","1", "delights","delighted"],["vocō","vocavī","1", "calls","called"],["laudo","laudavi","1", "praises","praised"],["gustō","gustavī","1", "tastes","tasted"],["spectō","spectavī","1", "observes","looked at"],["intrō","intravī","1", "enters", "entered"]];
+  ["vendo","vendidī", "3","sells","sold"],["debeō","debuī","2", "owes","owed"],["tradō","tradidit","3", "trades","handed over"],["reddō","reddidī", "3","returns","gave back"],["celō","celavī","1", "hides","hid"],["accuso","accusavī","1", "accuses","accused"],["pulsō","pulsavī","1", "strikes","struck"],["ducō","duxī","3", "leads","led"],["emō","ēmī","3", "buys","bought"],["seco","secuī","1", "cuts","cut"],["tondeo","totondī","2", "trims","trimmed"],["verberō","verberavī","1", "beats","beat"],["teneō","tenuī", "2","holds","held"],["quaero","quaesivī","3", "seeks","sought"],["peto","petivī","3", "attacks","looked for"],["pingo","pinxī","3", "paints","painted"],["salutō","salutavī","1", "greets","greeted"],["vituperō","vituperavi","1", "scolds","scolded"],["numerō","numeravī","1", "counts","counted"],["exspectō","exspectavī","1", "expects","waited for"],["coquō","coxī","3","cooks","cooked"],["visitō","visitavī","1", "visits","visited"],["consumō","consumpsī","3", "eats","ate"],["videō","vīdī","2", "sees","saw"],["delecto","delectavī","1", "delights","delighted"],["vocō","vocavī","1", "calls","called"],["laudo","laudavi","1", "praises","praised"],["gustō","gustavī","1", "tastes","tasted"],["spectō","spectavī","1", "observes","looked at"],["intrō","intravī","1", "enters", "entered"]];
 
   ranTransVerbIndx = Math.floor(Math.random() * transVerb.length);
 
@@ -424,7 +460,7 @@ function resetSentence(){
   ranLinkingVerbIndx = Math.floor(Math.random() * linkingVerb.length);
 
   class Latin {
-    constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,stem){
+    constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,stem,perfect){
     this.subject = subject;
     this.verb = verb;
     this.transVerb = transVerb;
@@ -434,6 +470,7 @@ function resetSentence(){
     this.linkingVerb = linkingVerb;
     this.adjective = adjective;
     this.stem = stem;
+    this.perfect = perfect;
   }
 
   nomPluralSubject(){
@@ -466,6 +503,22 @@ return this.transVerb.slice(0,-1) + "t";
 }
 }
 
+
+impThirdSing(){
+  if (transVerb[ranTransVerbIndx][2] == "1"){
+  return this.transVerb.slice(0,-1) + "ābat";
+} else if (transVerb[ranTransVerbIndx][2] == "2"){
+return this.transVerb.slice(0,-2) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "3"){
+return this.transVerb.slice(0,-1) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "3io"){
+return this.transVerb.slice(0,-1) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "4"){
+return this.transVerb.slice(0,-1) + "ēbat";
+}
+}
+
+
 presThirdPlural(){
   if (transVerb[ranTransVerbIndx][2] == "1"){
   return this.transVerb.slice(0,-1) + "ant";
@@ -479,6 +532,23 @@ return this.transVerb.slice(0,-1) + "unt";
 return this.transVerb.slice(0,-1) + "unt";
 }
 }
+
+
+impThirdPlural(){
+  if (transVerb[ranTransVerbIndx][2] == "1"){
+  return this.transVerb.slice(0,-1) + "ābat";
+} else if (transVerb[ranTransVerbIndx][2] == "2"){
+return this.transVerb.slice(0,-2) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "3"){
+return this.transVerb.slice(0,-1) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "3io"){
+return this.transVerb.slice(0,-1) + "ēbat";
+} else if (transVerb[ranTransVerbIndx][2] == "4"){
+return this.transVerb.slice(0,-1) + "ēbat";
+}
+}
+
+
 
 presThirdSingVerb(){
   if (verb[ranVerbIndx][2] == "1"){
@@ -534,7 +604,7 @@ return this.verb.slice(0,-2) + "is";
   }
 
   class Translation {
-    constructor (subject, verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,pluralSubject){
+    constructor (subject, verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,pluralSubject,perfect){
       this.subject = subject;
       this.verb = verb;
       this.transVerb = transVerb;
@@ -544,11 +614,12 @@ return this.verb.slice(0,-2) + "is";
       this.linkingVerb = linkingVerb;
       this.adjective = adjective;
       this.pluralSubject = pluralSubject;
+      this.perfect = perfect;
     }
   }
 
-  myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx],subjNounComboSing[ranSubjComboSingIndx][1]);
-  myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3],subjNounComboSing[ranSubjComboSingIndx][4]);
+  myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx],subjNounComboSing[ranSubjComboSingIndx][1],transVerb[ranTransVerbIndx][1]);
+  myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3],subjNounComboSing[ranSubjComboSingIndx][4],transVerb[ranTransVerbIndx][4]);
 
 
 
