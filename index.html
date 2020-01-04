@@ -96,7 +96,7 @@ var ranSentenceIndx = Math.floor(Math.random() * 3);
 
 var subjNounComboSing = [["puer", "pueri","m","boy","boys","2"],["nuntius", "nuntii","m","messenger","messengers","2"],["uxor", "uxoris","m","wife","wives","3"],
 ["pastor", "pastoris","m","shepherd","shepherds","3"],["iuvenis", "iuvenis","m","young man","young men","3"],
-["spectator", "spectatoris","m","spectator","spectatorrs","3"],["actor", "actoris","m","actor","actors","3"],["turba", "turbae","f","crowd","crowds","1"],
+["spectator", "spectatoris","m","spectator","spectators","3"],["actor", "actoris","m","actor","actors","3"],["turba", "turbae","f","crowd","crowds","1"],
 ["agricola", "agricolae","m","farmer","farmers","1"],["nauta", "nautae","m","sailor","sailors","1"],["femina", "feminae","f","woman","women","1"],
 ["puella", "puellae","f","girl","girls","1"],["testis", "testis","m","witness","witnesses","3"],["venalicius", "venalicii","m","slave dealer","slave dealers","2"],
 ["senex", "senis","m","old man","old men","3"],["tonsor", "tonsoris","m","barber","barbers","3"],["poeta", "poetae","m","poet","poets","1"],
@@ -183,8 +183,11 @@ var ranInterrogatives = Math.floor(Math.random() * interrogatives.length);
 var adverbs = [ ["hodiē","today"],["tandem","finally"],["subito","suddenly"],["intentē","intently"],["ferociter","fiercely"],["mox","soon"],["quoque","also"],["suaviter","sweetly"],["magnificē","magnificently"]];
 var ranAdverbsIndx = Math.floor(Math.random() * adverbs.length);
 
-var prepPhrase = [["in forō", "out of the shop"],["per portum", "through the harbor"],["dē monte", "down from the mountain"],["in theatrō", "in the theatre"],["in scaenā", "on the stage"],["ad urbem", "to the city"],["ē tabernā", "out of the shop"],["in sellā", "on the chair"],["ad villam", "to the house"],["prope navem Syriam", "near the Syrian ship"],["in picturā", "in the picture"],["in mensā", "on the table"],["in tablinō","in the study"],["in tricliniō","in the dining room"],["in peristyliō","in the courtyard"],["in culinā","in the kitchen"],["in hortō","in the garden"],["in viā","in the road"],["in atriō","in the main hall"],["in compluviō","on the roof opening"],["in impluviō","in the pool"],["in latrinā","in the bathroom"]];
+var prepPhrase = [["in forō", "out of the shop"],["dē monte", "down from the mountain"],["in theatrō", "in the theatre"],["in scaenā", "on the stage"],["ē tabernā", "out of the shop"],["in sellā", "on the chair"],["in picturā", "in the picture"],["in mensā", "on the table"],["in tablinō","in the study"],["in tricliniō","in the dining room"],["in peristyliō","in the courtyard"],["in culinā","in the kitchen"],["in hortō","in the garden"],["in viā","in the road"],["in atriō","in the main hall"],["in compluviō","on the roof opening"],["in impluviō","in the pool"],["in latrinā","in the bathroom"]];
 var ranPrepPhraseIndx = Math.floor(Math.random() * prepPhrase.length);
+
+var prepPhraseAcc = [["per portum", "through the harbor"],["ad urbem", "to the city"],["ad villam", "to the house"],["prope navem Syriam", "near the Syrian ship"]];
+var ranPrepPhraseAccIndx = Math.floor(Math.random() * prepPhraseAcc.length);
 
 var linkingVerb = [["est", "is"]];
 var ranLinkingVerbIndx = Math.floor(Math.random() * linkingVerb.length);
@@ -192,7 +195,7 @@ var ranLinkingVerbIndx = Math.floor(Math.random() * linkingVerb.length);
 
 
 class Latin {
-  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective){
+  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,stem){
   this.subject = subject;
   this.verb = verb;
   this.transVerb = transVerb;
@@ -201,7 +204,26 @@ class Latin {
   this.adverbs = adverbs;
   this.linkingVerb = linkingVerb;
   this.adjective = adjective;
+  this.stem = stem;
 }
+
+nomPluralSubject(){
+  if (subjNounComboSing[ranSubjComboSingIndx][5] == "1"){
+  return this.object;
+} else if (subjNounComboSing[ranSubjComboSingIndx][5] == "2"){
+return this.object;
+} else if (subjNounComboSing[ranSubjComboSingIndx][5] == "2n"){
+return this.object.slice(0,-1) + "a";
+} else if (subjNounComboSing[ranSubjComboSingIndx][5] == "3"){
+return this.object.slice(0,-2) + "ēs";
+} else if (subjNounComboSing[ranSubjComboSingIndx][5] == "4"){
+return this.object;
+} else if (subjNounComboSing[ranSubjComboSingIndx][5] == "5"){
+return this.ojbect.slice(0,-2) + "ēs";
+}
+}
+
+
 
 presThirdSing(){
   if (transVerb[ranTransVerbIndx][2] == "1"){
@@ -216,6 +238,23 @@ return this.transVerb.slice(0,-1) + "t";
 return this.transVerb.slice(0,-1) + "t";
 }
 }
+
+
+presThirdPlural(){
+  if (transVerb[ranTransVerbIndx][2] == "1"){
+  return this.transVerb.slice(0,-1) + "ant";
+} else if (transVerb[ranTransVerbIndx][2] == "2"){
+return this.transVerb.slice(0,-1) + "nt";
+} else if (transVerb[ranTransVerbIndx][2] == "3"){
+return this.transVerb.slice(0,-1) + "unt";
+} else if (transVerb[ranTransVerbIndx][2] == "3io"){
+return this.transVerb.slice(0,-1) + "unt";
+} else if (transVerb[ranTransVerbIndx][2] == "4"){
+return this.transVerb.slice(0,-1) + "unt";
+}
+}
+
+
 
 presThirdSing(){
   if (transVerb[ranTransVerbIndx][2] == "1"){
@@ -266,7 +305,7 @@ return this.verb.slice(0,-2) + "is";
 }
 
 class Translation {
-  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective){
+  constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,pluralSubject){
     this.subject = subject;
     this.verb = verb;
     this.transVerb = transVerb;
@@ -275,11 +314,12 @@ class Translation {
     this.adverbs = adverbs;
     this.linkingVerb = linkingVerb;
     this.adjective = adjective;
+    this.pluralSubject = pluralSubject;
   }
 }
 
-myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx]);
-myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3]);
+myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx],subjNounComboSing[ranSubjComboSingIndx][1]);
+myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3],subjNounComboSing[ranSubjComboSingIndx][4]);
 
 
 
@@ -290,7 +330,7 @@ function resetSentence(){
   subjNounComboSing =
   [["puer", "pueri","m","boy","boys","2"],["nuntius", "nuntii","m","messenger","messengers","2"],["uxor", "uxoris","m","wife","wives","3"],
   ["pastor", "pastoris","m","shepherd","shepherds","3"],["iuvenis", "iuvenis","m","young man","young men","3"],
-  ["spectator", "spectatoris","m","spectator","spectatorrs","3"],["actor", "actoris","m","actor","actors","3"],
+  ["spectator", "spectatoris","m","spectator","spectators","3"],["actor", "actoris","m","actor","actors","3"],
   ["turba", "turbae","f","crowd","crowds","1"],["agricola", "agricolae","m","farmer","farmers","1"],["nauta", "nautae","m","sailor","sailors","1"],
   ["femina", "feminae","f","woman","women","1"],["puella", "puellae","f","girl","girls","1"],["testis", "testis","m","witness","witnesses","3"],
   ["venalicius", "venalicii","m","slave dealer","slave dealers","2"],["senex", "senis","m","old man","old men","3"],["tonsor", "tonsoris","m","barber","barbers","3"],
@@ -372,15 +412,19 @@ function resetSentence(){
   ranAdverbsIndx = Math.floor(Math.random() * adverbs.length);
 
 
-  prepPhrase = [["in forō", "out of the shop"],["per portum", "through the harbor"],["dē monte", "down from the mountain"],["in theatrō", "in the theatre"],["in scaenā", "on the stage"],["ad urbem", "to the city"],["ē tabernā", "out of the shop"],["in sellā", "on the chair"],["ad villam", "to the house"],["prope navem Syriam", "near the Syrian ship"],["in picturā", "in the picture"],["in mensā", "on the table"],["in tablinō","in the study"],["in tricliniō","in the dining room"],["in peristyliō","in the courtyard"],["in culinā","in the kitchen"],["in hortō","in the garden"],["in viā","in the road"],["in atriō","in the main hall"],["in compluviō","on the roof opening"],["in impluviō","in the pool"],["in latrinā","in the bathroom"]];
+  prepPhrase = [["in forō", "in the marketplace"],["dē monte", "down from the mountain"],["in theatrō", "in the theatre"],["in scaenā", "on the stage"],["ē tabernā", "out of the shop"],["in sellā", "on the chair"],["in picturā", "in the picture"],["in mensā", "on the table"],["in tablinō","in the study"],["in tricliniō","in the dining room"],["in peristyliō","in the courtyard"],["in culinā","in the kitchen"],["in hortō","in the garden"],["in viā","in the road"],["in atriō","in the main hall"],["in compluviō","on the roof opening"],["in impluviō","in the pool"],["in latrinā","in the bathroom"]];
 
   ranPrepPhraseIndx = Math.floor(Math.random() * prepPhrase.length);
+
+  prepPhraseAcc = [["per portum", "through the harbor"],["ad urbem", "to the city"],["ad villam", "to the house"],["prope navem Syriam", "near the Syrian ship"]];
+  ranPrepPhraseAccIndx = Math.floor(Math.random() * prepPhraseAcc.length);
+
 
   linkingVerb = [["est", "is"]];
   ranLinkingVerbIndx = Math.floor(Math.random() * linkingVerb.length);
 
   class Latin {
-    constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective){
+    constructor (subject,verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,stem){
     this.subject = subject;
     this.verb = verb;
     this.transVerb = transVerb;
@@ -389,6 +433,23 @@ function resetSentence(){
     this.adverbs = adverbs;
     this.linkingVerb = linkingVerb;
     this.adjective = adjective;
+    this.stem = stem;
+  }
+
+  nomPluralSubject(){
+    if (subjNounComboSing[ranSubjComboSingIndx][5] == "1"){
+    return this.stem;
+  } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "2"){
+  return this.stem;
+  } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "2n"){
+  return this.stem.slice(0,-1) + "a";
+  } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "3"){
+  return this.stem.slice(0,-2) + "ēs";
+  } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "4"){
+  return this.stem;
+  } else if (subjNounComboSing[ranSubjComboSingIndx][5] == "5"){
+  return this.stem.slice(0,-2) + "ēs";
+  }
   }
 
     presThirdSing(){
@@ -402,6 +463,20 @@ function resetSentence(){
 return this.transVerb.slice(0,-1) + "t";
 } else if (transVerb[ranTransVerbIndx][2] == "4"){
 return this.transVerb.slice(0,-1) + "t";
+}
+}
+
+presThirdPlural(){
+  if (transVerb[ranTransVerbIndx][2] == "1"){
+  return this.transVerb.slice(0,-1) + "ant";
+} else if (transVerb[ranTransVerbIndx][2] == "2"){
+return this.transVerb.slice(0,-1) + "nt";
+} else if (transVerb[ranTransVerbIndx][2] == "3"){
+return this.transVerb.slice(0,-1) + "unt";
+} else if (transVerb[ranTransVerbIndx][2] == "3io"){
+return this.transVerb.slice(0,-1) + "unt";
+} else if (transVerb[ranTransVerbIndx][2] == "4"){
+return this.transVerb.slice(0,-1) + "unt";
 }
 }
 
@@ -459,7 +534,7 @@ return this.verb.slice(0,-2) + "is";
   }
 
   class Translation {
-    constructor (subject, verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective){
+    constructor (subject, verb,transVerb,object,prepPhrase,adverbs,linkingVerb,adjective,pluralSubject){
       this.subject = subject;
       this.verb = verb;
       this.transVerb = transVerb;
@@ -468,11 +543,12 @@ return this.verb.slice(0,-2) + "is";
       this.adverbs = adverbs;
       this.linkingVerb = linkingVerb;
       this.adjective = adjective;
+      this.pluralSubject = pluralSubject;
     }
   }
 
-  myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx]);
-  myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3]);
+  myLatinSentence = new Latin(subjNounComboSing[ranSubjComboSingIndx][0],verb[ranVerbIndx][0],transVerb[ranTransVerbIndx][0],dirObjComboSing[ranDirObjComboSingIndx][1],prepPhrase[ranPrepPhraseIndx][0],adverbs[ranAdverbsIndx][0],linkingVerb[ranLinkingVerbIndx][0],adjective[ranAdjectiveIndx],subjNounComboSing[ranSubjComboSingIndx][1]);
+  myTranslation = new Translation(subjNounComboSing[ranSubjComboSingIndx][3],verb[ranVerbIndx][3],transVerb[ranTransVerbIndx][3],dirObjComboSing[ranDirObjComboSingIndx][3],prepPhrase[ranPrepPhraseIndx][1],adverbs[ranAdverbsIndx][1],linkingVerb[ranLinkingVerbIndx][1],adjective[ranAdjectiveIndx][3],subjNounComboSing[ranSubjComboSingIndx][4]);
 
 
 
@@ -549,17 +625,17 @@ resetSentence();
 
 if (ranSentenceIndx == 0){
   if (dirObjComboSing[ranDirObjComboSingIndx][5] == "1"){
-var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-1) + "m " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
+var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-1) + "m " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2"){
-var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
+var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2n"){
 var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "3"){
-var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-2) + "em " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
+var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-2) + "em " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "4"){
-var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-2) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
+var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-2) + "um " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 }else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "5"){
-var latin = myLatinSentence.subject + " " + myLatinSentence.object.slice(0,-2) + "em " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdSing();
+var latin = myLatinSentence.nomPluralSubject() + " " + myLatinSentence.object.slice(0,-2) + "em " + myLatinSentence.prepPhrase + " " + myLatinSentence.presThirdPlural();
 }
 
 } else if (ranSentenceIndx ==1) {
@@ -568,7 +644,7 @@ var latin = myLatinSentence.subject + " " + myLatinSentence.adverbs + " " + myLa
   if (dirObjComboSing[ranDirObjComboSingIndx][5] == "1"){
     var latin = "Cur tu " + myLatinSentence.object.slice(0,-1) + "m " + myLatinSentence.presSecondSingTransVerb() + "?";
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2"){
-    var latin = "Ego " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.transVerb + ", sed tu " + myLatinSentence.presSecondSingVerb();
+    var latin = "Ego " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.transVerb + ", sed tu " + prepPhraseAcc[ranPrepPhraseAccIndx][0] + " " + myLatinSentence.presSecondSingVerb();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2n"){
   var latin = "Ego " + myLatinSentence.object.slice(0,-1) + "um " + myLatinSentence.transVerb + ", sed tu " + myLatinSentence.presSecondSingVerb();
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "3" || "5"){
@@ -597,14 +673,14 @@ document.getElementById("demo").innerHTML = latin;
 function giveAnswerOne(){
 
 if (ranSentenceIndx == 0){
-  var latinTrans = "The " + myTranslation.subject + " " + myTranslation.transVerb + " the " + myTranslation.object + " " + myTranslation.prepPhrase;
+  var latinTrans = "The " + myTranslation.pluralSubject + " " + myTranslation.transVerb.slice(0,-1) + " the " + myTranslation.object + " " + myTranslation.prepPhrase;
 } else if (ranSentenceIndx == 1){
   var latinTrans = "The " + myTranslation.subject + " " + myTranslation.adverbs + " " + myTranslation.verb + " " + myTranslation.prepPhrase;
 } else if (ranSentenceIndx == 2) {
   if (dirObjComboSing[ranDirObjComboSingIndx][5] == "1"){
-    var latinTrans = "Why do you " + " " + myLatinSentence.transVerb.slice(0,-1) + " " + myTranslation.object + "?";
+    var latinTrans = "Why do you " + " " + myTranslation.transVerb.slice(0,-1) + " the " + myTranslation.object + "?";
   } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2"){
-    var latinTrans = "I " + myTranslation.transVerb.slice(0,-1) + " the " + myTranslation.object + ", but you " + myTranslation.verb.slice(0,-1);
+    var latinTrans = "I " + myTranslation.transVerb.slice(0,-1) + " the " + myTranslation.object + ", but you " + myTranslation.verb.slice(0,-1) + " " + prepPhraseAcc[ranPrepPhraseAccIndx][1];
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "2n"){
   var latinTrans = "I " + myTranslation.transVerb.slice(0,-1) + " the " + myTranslation.object + ", but you " + myTranslation.verb.slice(0,-1);
 } else if (dirObjComboSing[ranDirObjComboSingIndx][5] == "3" || "5"){
